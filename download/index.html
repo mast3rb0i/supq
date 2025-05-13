@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Download | supQ 1.0.4</title>
+  <link rel="icon" href="supQ.ico">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      color: #d8bfd8;
+      overflow: hidden;
+    }
+
+    .snowflake {
+      position: fixed;
+      top: -10vh;
+      color: #d8bfd8;
+      font-size: 1em;
+      text-shadow: 0 0 5px #000;
+      pointer-events: none;
+      animation: fall linear forwards;
+      z-index: 0;
+    }
+
+    @keyframes fall {
+      0% { opacity: 0.8; transform: translateY(-10vh) rotate(0deg); }
+      100% { opacity: 0.3; transform: translateY(110vh) rotate(360deg); }
+    }
+
+    .container {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      position: relative;
+      z-index: 2;
+    }
+
+    .panel {
+      background: #111;
+      border: 2px solid #d8bfd8;
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(200, 160, 255, 0.5);
+    }
+
+    .logo {
+      width: 200px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      text-shadow: 0 0 10px rgba(200,160,255,0.7);
+      margin-bottom: 20px;
+    }
+
+    .download-btn {
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      color: #d8bfd8;
+      background: #222;
+      border: 2px solid #d8bfd8;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(200,160,255,0.8);
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #000;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .popup.active {
+      display: flex;
+    }
+
+    .popup-content {
+      background: #111;
+      padding: 30px;
+      border-radius: 15px;
+      border: 2px solid #d8bfd8;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 0 20px rgba(200,160,255,0.5);
+    }
+
+    #progressBar {
+      height: 10px;
+      width: 0%;
+      background: #d8bfd8;
+      transition: width 0.3s ease;
+      border-radius: 10px;
+    }
+
+    .progress-wrapper {
+      width: 100%;
+      background: #333;
+      margin: 20px 0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="panel">
+    <img src="supq_logo.png" alt="supQ Logo" class="logo">
+    <h1>Download supQ 1.0.4</h1>
+    <button class="download-btn" onclick="startPreparingDownload()">Download Now</button>
+  </div>
+</div>
+
+<!-- Snowflake Generator -->
+<script>
+  function createSnowflake() {
+    const snowflake = document.createElement('div');
+    snowflake.classList.add('snowflake');
+    snowflake.innerHTML = '❄';
+    snowflake.style.left = Math.random() * 100 + 'vw';
+    snowflake.style.animationDuration = (Math.random() * 10 + 10) + 's';
+    snowflake.style.opacity = Math.random() * 0.5 + 0.3;
+    snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+    document.body.appendChild(snowflake);
+    snowflake.addEventListener('animationend', () => snowflake.remove());
+  }
+  setInterval(createSnowflake, 200);
+</script>
+
+<!-- Preparing Popup -->
+<div class="popup" id="preparingPopup">
+  <div class="popup-content">
+    <h2>Preparing Download</h2>
+    <p id="prepStatus">🔒 Preparing your download...</p>
+    <div class="progress-wrapper">
+      <div id="progressBar"></div>
+    </div>
+    <p style="font-size: 0.9rem;">Your download is safe and secure.</p>
+  </div>
+</div>
+
+<!-- Download Script -->
+<script>
+  function startPreparingDownload() {
+    const popup = document.getElementById('preparingPopup');
+    const progressBar = document.getElementById('progressBar');
+    const prepStatus = document.getElementById('prepStatus');
+    let progress = 0;
+    popup.classList.add('active');
+
+    const interval = setInterval(() => {
+      progress += Math.random() * 5 + 4;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+        prepStatus.innerText = "✅ Ready!";
+        setTimeout(() => {
+          popup.classList.remove('active');
+          const link = document.createElement('a');
+          link.href = 'supQ1.0.4.zip';
+          link.download = 'supQ1.0.4.zip';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }, 1000);
+      }
+      progressBar.style.width = progress + "%";
+    }, 200);
+  }
+</script>
+
+</body>
+</html>
